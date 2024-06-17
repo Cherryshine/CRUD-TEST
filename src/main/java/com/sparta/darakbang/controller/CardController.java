@@ -19,12 +19,14 @@ public class CardController {
         this.cardService = cardService;
     }
 
+    // create
     @PostMapping("/card") // http://localhost:8080/api/card POST
     public Card createCard(@RequestBody CardRequestDto request) {
         // { cardNumber:" 16자리 "}
         return cardService.createCard(request);
     }
 
+    // read
     @GetMapping("/cards")
     public List<CardResponseDto> getCards() {
         return cardService.getCards();
@@ -35,19 +37,20 @@ public class CardController {
         return cardService.getCard(cardId);
     }
 
-
-    //작업중 (update, delete)
-    // delete
-    @DeleteMapping("/cards/{cardId}")
-    public void delete(@PathVariable Long cardId) {
-        cardService.deleteCard(cardId);
-    }
     // update
     @PutMapping("/cards/{cardId}")
     public CardResponseDto updateCard(@PathVariable Long cardId, @RequestBody CardRequestDto request) {
         cardService.updateCard(cardId, request);
         return cardService.getCard(cardId);
     }
+
+    // delete
+    @DeleteMapping("/cards/{cardId}")
+    public void delete(@PathVariable Long cardId) {
+        cardService.deleteCard(cardId);
+    }
+
+
 
 
 }
