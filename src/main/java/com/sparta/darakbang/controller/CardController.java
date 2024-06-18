@@ -5,6 +5,8 @@ import com.sparta.darakbang.dto.CardRequestDto;
 import com.sparta.darakbang.dto.CardResponseDto;
 import com.sparta.darakbang.entity.Card;
 import com.sparta.darakbang.service.CardService;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,37 +22,35 @@ public class CardController {
     }
 
     // create
-    @PostMapping("/card") // http://localhost:8080/api/card POST
-    public Card createCard(@RequestBody CardRequestDto request) {
+    @PostMapping("/cards") // http://localhost:8080/api/cards POST
+    public ResponseEntity<Card> createCard(@RequestBody CardRequestDto request) {
         // { cardNumber:" 16자리 "}
-        return cardService.createCard(request);
+        return ResponseEntity.ok(cardService.createCard(request));
     }
 
     // read
     @GetMapping("/cards")
-    public List<CardResponseDto> getCards() {
-        return cardService.getCards();
+    public ResponseEntity<List<CardResponseDto>> getCards() {
+        return ResponseEntity.ok(cardService.getCards());
     }
 
     @GetMapping("/cards/{cardId}")
-    public CardResponseDto getCard(@PathVariable Long cardId) {
-        return cardService.getCard(cardId);
+    public ResponseEntity<CardResponseDto> getCard(@PathVariable Long cardId) {
+        return ResponseEntity.ok(cardService.getCard(cardId));
     }
 
     // update
     @PutMapping("/cards/{cardId}")
-    public CardResponseDto updateCard(@PathVariable Long cardId, @RequestBody CardRequestDto request) {
+    public ResponseEntity<CardResponseDto> updateCard(@PathVariable Long cardId, @RequestBody CardRequestDto request) {
         cardService.updateCard(cardId, request);
-        return cardService.getCard(cardId);
+        return ResponseEntity.ok(cardService.getCard(cardId));
     }
 
     // delete
     @DeleteMapping("/cards/{cardId}")
-    public void delete(@PathVariable Long cardId) {
+    public ResponseEntity<Void> delete(@PathVariable Long cardId) {
         cardService.deleteCard(cardId);
+        return ResponseEntity.noContent().build();
     }
-
-
-
 
 }
